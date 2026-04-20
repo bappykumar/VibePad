@@ -1,62 +1,112 @@
-# VibePad - Premium Sticky Notes 🚀
+<div align="center">
 
-VibePad is a realistic, modern, and high-performance sticky note desktop widget that looks and feels like real notes on your screen. Developed with a focus on aesthetics and productivity.
+# 📝 VibePad v2.2.0
+### *Premium Desktop Sticky Notes for Modern Workflows*
 
-![VibePad Banner](https://raw.githubusercontent.com/BappyKumar/VibePad/main/assets/banner.png) *(Note: Add your own banner/screenshot here)*
+[![Version](https://img.shields.io/badge/version-2.2.0-blue.svg?style=for-the-badge)](https://github.com/bappykumar/VibePad)
+[![Platform](https://img.shields.io/badge/platform-Windows%20|%20macOS%20|%20Linux-lightgrey.svg?style=for-the-badge)](https://github.com/bappykumar/VibePad)
+[![License](https://img.shields.io/badge/license-MIT-green.svg?style=for-the-badge)](https://github.com/bappykumar/VibePad)
 
-## ✨ Features
+---
 
-- 🎨 **Modern Harmonious Palette**: Choose from multiple professional color themes.
-- 🖋️ **Handwriting Font**: Uses "Segoe Print" for a realistic look.
-- 📌 **Always on Top**: Pin or unpin notes to keep them visible while working.
-- ✅ **Checklist Mode**: Integrated checklist support for easy task management.
-- 💾 **Auto-Save**: Never lose your thoughts; notes are saved automatically.
-- 🔄 **Auto-Restore**: Notes appear exactly where you left them when you restart your PC.
-- 📏 **Resizable**: Drag the corner to resize your notes.
-- ⌨️ **Keyboard Shortcuts**: Power user shortcuts for fast interaction.
+**VibePad** is a realistic, modern, and high-performance desktop sticky note widget. Designed to feel like physical notes on your digital screen, it combines tactile aesthetics with professional power features like Markdown, Checklists, and Auto-sync.
 
-## 🚀 Quick Start
+</div>
 
-1.  **Clone the repository:**
-    ```bash
-    git clone https://github.com/YourUsername/VibePad.git
-    cd VibePad
-    ```
-2.  **Run the application:**
-    ```bash
-    python VibePad.py
-    ```
-    *Alternatively, on Windows, you can double-click `Start_VibePad.bat`.*
+## ✨ What's New in v2.2.0?
 
-## ⌨️ Keyboard Shortcuts
+Version 2.2.0 is a major refactor focused on **Stability**, **Aesthetics**, and **Productivity**.
+
+- 🚀 **Single-Process Engine**: Optimized performance and no more file-locking issues.
+- 🗸 **Checklist Mode**: Create interactive TODO lists with a click.
+- ✍️ **Markdown Support**: Headers, Bold, and Italics with a clean "Syntax-Hide" interface.
+- 🎨 **Harmonious Palette**: Six curated themes designed for readability and focus.
+- 🛠️ **Utility Suite**: Integrated Control Panel and One-click Data Cleaner.
+
+---
+
+## 💎 Core Features
+
+### 1. Realistic Design
+Uses the high-quality **Segoe Print** font to mimic real handwriting, paired with a subtle border and shadow-like header design.
+
+### 2. Markdown & Styling
+Just select text to reveal the **Floating Toolbar**. Apply formatting instantly:
+- `# Headers` for structure.
+- `**Bold**` for emphasis.
+- `*Italics*` for footnotes.
+- *Tip: Syntax markers hide automatically when you focus elsewhere!*
+
+### 3. Interactive Checklists
+Right-click or click the `(+)` icon to create a **New Checklist**.
+- `☐` Empty -> `☑` Completed -> `☒` Critical -> `☐` Reset.
+
+### 4. Smart Window Management
+- **Pin Header**: Keeps notes "Always on Top" for quick reference.
+- **Auto-Save**: Every keystroke is saved instantly; never lose a thought.
+- **Dynamic Resizing**: Grab the modern triangle handle (◢) to scale your note.
+- **Multi-Note Support**: Run as many pads as you need simultaneously.
+
+---
+
+## ⌨️ Productivity Shortcuts
 
 | Shortcut | Action |
-| :--- | :--- |
-| `Ctrl + N` | New Note |
-| `Ctrl + P` | Toggle Pin (Always on Top) |
-| `Ctrl + D` | Delete Current Note |
-| `Right-Click` | Context Menu |
-| `Double-Click Title` | Edit Title |
+| :-- | :-- |
+| **Ctrl + N** | Create a New Note |
+| **Ctrl + P** | Toggle "Always on Top" (Pin) |
+| **Ctrl + D** | Delete Current Note (with confirmation) |
+| **Double-Click Title** | Rename the Note Title |
+| **Right-Click** | Open Context Menu (Themes, About, Utilities) |
 
-## 🛠️ Installation & Setup
+---
 
-### Auto-Start (Windows)
-To have VibePad start automatically when you turn on your PC:
-- Run `setup_autostart.bat`.
-- To remove it later, run `remove_autostart.bat`.
+## 🛠️ Included Utilities
 
-### Requirements
-- Python 3.x
-- Tkinter (usually comes with Python)
+The package includes a suite of tools for a seamless experience:
 
-## 📁 Data Storage
+- **`VibePad_Control_Panel.exe`**: Manage your experience from a central hub.
+- **`Start_VibePad.bat`**: The quickest way to launch the app.
+- **`setup_autostart.bat`**: Adds VibePad to your Windows Startup folder.
+- **`VibePad_Cleaner.bat`**: Safely stops the app and resets todos/notes if you want a fresh start.
+
+---
+
+## 📂 Installation
+
+### For Windows Users (Easiest)
+1. Download the `VibePad_v2.2.0` folder.
+2. Double-click `Start_VibePad.bat`.
+3. (Optional) Run `setup_autostart.bat` to have your notes ready every time you log in.
+
+### Running from Source
+Ensure you have Python 3.x installed.
+```bash
+# Clone the repository
+git clone https://github.com/bappykumar/VibePad.git
+
+# Run the app
+python VibePad.py
+```
+
+---
+
+## 🌍 Data Storage
+Your notes are stored locally and securely in standard application directories:
 - **Windows**: `%APPDATA%\VibePad\notes.json`
 - **macOS**: `~/Library/Application Support/VibePad/notes.json`
 - **Linux**: `~/.config/VibePad/notes.json`
 
-## 👨‍💻 Developer
-**Bappy Kumar**
-- 🌐 [Join Community (Telegram)](https://t.me/designbd2)
+---
 
-## 📄 License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+## 🤝 Developed By
+**Bappy Kumar**
+*Visualizer | Vibe Coder*
+
+Join our community for updates: [🌐 Telegram Support](https://t.me/designbd2)
+
+---
+
+<div align="center">
+  <p>© 2026 VibePad App. Designed for the aesthetics of productivity.</p>
+</div>

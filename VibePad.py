@@ -62,7 +62,7 @@ DEFAULT_HEIGHT = 300
 class NoteData:
     def __init__(self, **kwargs):
         self.note_id = kwargs.get("note_id") or f"note_{int(time.time()*1000)}"
-        self.title = kwargs.get("title", APP_NAME)
+        self.title = kwargs.get("title", "Sticky Note")
         self.content = kwargs.get("content", "")
         self.color_name = kwargs.get("color_name", "Vibe Yellow")
         self.x = kwargs.get("x", 100)
@@ -532,7 +532,7 @@ class VibePadApp:
         self.save()
 
     def new_note(self, is_checklist=False):
-        title = "Checklist" if is_checklist else APP_NAME
+        title = "Checklist" if is_checklist else "Sticky Note"
         d = NoteData(x=300, y=300, is_checklist=is_checklist, title=title)
         self.add_note(d)
 
