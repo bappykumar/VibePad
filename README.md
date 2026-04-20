@@ -82,9 +82,19 @@ The package includes a suite of tools for a seamless experience:
 2. Double-click **`VibePad_Control_Panel.exe`**.
 3. (Optional) Run `setup_autostart.bat` to have your notes ready every time you log in.
 
+### ⚠️ Troubleshooting: "Windows cannot find 'pythonw'"
+If you see an error saying "Windows cannot find 'pythonw'", it means Python is missing or not configured correctly.
+
+**Step-by-Step Fix:**
+1. **Download Python:** Visit [python.org/downloads](https://www.python.org/downloads/) and download the latest version.
+2. **Run Installer:** Open the `.exe` file you just downloaded.
+3. **CRITICAL:** Check the box **"Add Python.exe to PATH"** at the bottom before clicking Install.
+4. **Install:** Click **"Install Now"**.
+5. **Try Again:** Once finished, run `Start_VibePad.bat` or `VibePad_Control_Panel.exe` again.
+
 ### Running from Source (Developers)
 If you prefer running the Python source code:
-1. Ensure you have Python 3.x installed.
+1. Ensure you have Python 3.x installed (with PATH enabled).
 2. Run `python VibePad.py` or use `Start_VibePad.bat`.
 ```bash
 # Clone the repository
