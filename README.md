@@ -13,6 +13,9 @@
 
 </div>
 
+## 🚀 Quick Launch
+Just double-click **`VibePad_Control_Panel.exe`** to start your workspace. No Python installation required!
+
 ## ✨ What's New in v2.2.0?
 
 Version 2.2.0 is a major refactor focused on **Stability**, **Aesthetics**, and **Productivity**.
@@ -74,13 +77,15 @@ The package includes a suite of tools for a seamless experience:
 
 ## 📂 Installation
 
-### For Windows Users (Easiest)
+### For Windows Users (Recommended)
 1. Download the `VibePad_v2.2.0` folder.
-2. Double-click `Start_VibePad.bat`.
+2. Double-click **`VibePad_Control_Panel.exe`**.
 3. (Optional) Run `setup_autostart.bat` to have your notes ready every time you log in.
 
-### Running from Source
-Ensure you have Python 3.x installed.
+### Running from Source (Developers)
+If you prefer running the Python source code:
+1. Ensure you have Python 3.x installed.
+2. Run `python VibePad.py` or use `Start_VibePad.bat`.
 ```bash
 # Clone the repository
 git clone https://github.com/bappykumar/VibePad.git
