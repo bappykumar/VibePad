@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 ============================================================
-  VibePad v2.2 - Developed by Bappy Kumar
+  VibePad v2.3 - Developed by Bappy Kumar
 ============================================================
   Modern, Clean, and Professional Desktop Widget
 ============================================================
@@ -32,7 +32,7 @@ if sys.platform == "win32":
 # ============================================================
 
 APP_NAME = "VibePad"
-APP_VERSION = "2.2.0"
+APP_VERSION = "2.3.0"
 
 if sys.platform == "win32":
     DATA_DIR = Path(os.environ.get("APPDATA", Path.home())) / APP_NAME
@@ -55,6 +55,16 @@ NOTE_COLORS = {
 DEFAULT_WIDTH = 280
 DEFAULT_HEIGHT = 300
 
+AVAILABLE_FONTS = {
+    "Handwriting": "Segoe Print",
+    "Artistic":    "Segoe Script",
+    "Modern":      "Segoe UI",
+    "Clean":       "Calibri",
+    "Code":        "Consolas",
+    "Classic":     "Arial",
+    "Bengali":     "Li Ador Noirrit",
+}
+
 # ============================================================
 # Core Logic
 # ============================================================
@@ -71,6 +81,8 @@ class NoteData:
         self.height = kwargs.get("height", DEFAULT_HEIGHT)
         self.always_on_top = kwargs.get("always_on_top", True)
         self.is_checklist = kwargs.get("is_checklist", False)
+        self.font_name = kwargs.get("font_name", "Handwriting")
+        self.font_size = kwargs.get("font_size", 11)
     
     def to_dict(self):
         return self.__dict__
@@ -108,9 +120,15 @@ class StickyNote:
         self.header.pack(fill=tk.X)
         self.header.pack_propagate(False)
         
+        # Pin Button
+        self.pin_btn = tk.Label(self.header, text="📍" if self.data.always_on_top else "📌", 
+                                bg=self.theme["header"], fg=self.theme["text"], 
+                                font=("Segoe UI", 11), width=2, cursor="hand2")
+        self.pin_btn.pack(side=tk.LEFT, padx=(5, 0))
+
         # Title
         self.title_label = tk.Label(self.header, text=self.data.title, bg=self.theme["header"], 
-                                   fg=self.theme["text"], font=("Segoe UI", 9, "bold"), padx=10)
+                                   fg=self.theme["text"], font=("Segoe UI", 9, "bold"), padx=5)
         self.title_label.pack(side=tk.LEFT)
         
         # Control Buttons
@@ -118,12 +136,14 @@ class StickyNote:
         self.controls.pack(side=tk.RIGHT, padx=5)
         
         self.add_btn = tk.Label(self.controls, text="+", bg=self.theme["header"], fg=self.theme["text"], 
-                              font=("Segoe UI", 12), width=2, cursor="hand2")
+                                font=("Segoe UI", 12), width=2, cursor="hand2")
         self.add_btn.pack(side=tk.LEFT)
         
         # Editor with Handwriting Font
+        font_family = AVAILABLE_FONTS.get(self.data.font_name, "Segoe Print")
+        size = self.data.font_size
         self.editor = tk.Text(self.main_container, bg=self.theme["bg"], fg=self.theme["text"],
-                             font=("Segoe Print", 11), wrap=tk.WORD, borderwidth=0,
+                             font=(font_family, size), wrap=tk.WORD, borderwidth=0,
                              padx=15, pady=10, highlightthickness=0, insertbackground=self.theme["text"])
         self.editor.pack(fill=tk.BOTH, expand=True)
         self.editor.tag_configure("strike", overstrike=True)
@@ -131,9 +151,9 @@ class StickyNote:
         self.editor.tag_configure("cross_color", foreground="#C62828") # Dark Red
         
         # Markdown Tags
-        self.editor.tag_configure("bold", font=("Segoe Print", 11, "bold"))
-        self.editor.tag_configure("italic", font=("Segoe Print", 11, "italic"))
-        self.editor.tag_configure("header", font=("Segoe UI", 13, "bold"), foreground=self.theme["border"])
+        self.editor.tag_configure("bold", font=(font_family, size, "bold"))
+        self.editor.tag_configure("italic", font=(font_family, size, "italic"))
+        self.editor.tag_configure("header", font=(font_family, size + 2, "bold"), foreground=self.theme["border"])
         self.editor.tag_configure("hidden", elide=True)
         self.editor.tag_configure("md_star", elide=True) # Dedicated tag for italic stars
         self.editor.tag_raise("hidden")
@@ -163,8 +183,9 @@ class StickyNote:
 
     def update_colors(self):
         hover_bg = self.app.darken(self.theme["header"])
-        self.add_btn.bind("<Enter>", lambda e: self.add_btn.configure(bg=hover_bg))
-        self.add_btn.bind("<Leave>", lambda e: self.add_btn.configure(bg=self.theme["header"]))
+        for btn in [self.add_btn, self.pin_btn]:
+            btn.bind("<Enter>", lambda e, b=btn: b.configure(bg=hover_bg))
+            btn.bind("<Leave>", lambda e, b=btn: b.configure(bg=self.theme["header"]))
 
     def bind_events(self):
         self.header.bind("<Button-1>", self.start_move)
@@ -177,6 +198,7 @@ class StickyNote:
         self.handle.bind("<Button-1>", self.start_resize)
         self.handle.bind("<B1-Motion>", self.do_resize)
         
+        self.pin_btn.bind("<Button-1>", self.toggle_pin)
         self.add_btn.bind("<Button-1>", self.show_plus_menu)
         self.editor.bind("<KeyRelease>", self.on_text_change)
         self.editor.bind("<<Selection>>", self.on_selection)
@@ -228,6 +250,13 @@ class StickyNote:
         menu.tk_popup(e.x_root, e.y_root)
 
     def on_text_change(self, e=None):
+        content = self.editor.get("1.0", tk.END)
+        
+        # Auto-detect Bengali: [\u0980-\u09FF] is the Unicode range for Bengali
+        if re.search(r"[\u0980-\u09FF]", content):
+            if self.data.font_name != "Bengali":
+                self.change_font("Bengali", save=False)
+
         if self.data.is_checklist:
             self.apply_checklist_tags()
         else:
@@ -424,6 +453,16 @@ class StickyNote:
             c_menu.add_command(label=f"  {name}", command=lambda n=name: self.change_theme(n))
         menu.add_cascade(label="🎨 Themes", menu=c_menu)
         
+        f_menu = tk.Menu(menu, tearoff=0)
+        for name in AVAILABLE_FONTS:
+            f_menu.add_command(label=f"  {name}", command=lambda n=name: self.change_font(n))
+        menu.add_cascade(label="🔤 Fonts", menu=f_menu)
+        
+        s_menu = tk.Menu(menu, tearoff=0)
+        for s in [9, 10, 11, 12, 14, 16, 18, 20, 24]:
+            s_menu.add_command(label=f"  {s}px", command=lambda sz=s: self.change_font_size(sz))
+        menu.add_cascade(label="📏 Font Size", menu=s_menu)
+        
         menu.add_separator()
         menu.add_command(label="📌 Unpin Header" if self.data.always_on_top else "📍 Pin Header", 
                         command=self.toggle_pin)
@@ -447,15 +486,51 @@ class StickyNote:
         self.header.configure(bg=self.theme["header"])
         self.title_label.configure(bg=self.theme["header"], fg=self.theme["text"])
         self.controls.configure(bg=self.theme["header"])
+        self.pin_btn.configure(bg=self.theme["header"], fg=self.theme["text"])
         self.add_btn.configure(bg=self.theme["header"], fg=self.theme["text"])
         self.editor.configure(bg=self.theme["bg"], fg=self.theme["text"], insertbackground=self.theme["text"])
         self.handle.configure(bg=self.theme["bg"], fg=self.theme["border"])
         self.update_colors()
         self.app.save()
 
-    def toggle_pin(self):
+    def change_font(self, name, save=True):
+        self.data.font_name = name
+        font_family = AVAILABLE_FONTS.get(name, "Segoe Print")
+        size = self.data.font_size
+        self.editor.configure(font=(font_family, size))
+        
+        # Update tags
+        self.editor.tag_configure("bold", font=(font_family, size, "bold"))
+        self.editor.tag_configure("italic", font=(font_family, size, "italic"))
+        self.editor.tag_configure("header", font=(font_family, size + 2, "bold"))
+        
+        if save:
+            if self.data.is_checklist:
+                self.apply_checklist_tags()
+            else:
+                self.apply_markdown_tags()
+            self.app.save()
+
+    def change_font_size(self, size):
+        self.data.font_size = size
+        font_family = AVAILABLE_FONTS.get(self.data.font_name, "Segoe Print")
+        self.editor.configure(font=(font_family, size))
+        
+        # Update tags
+        self.editor.tag_configure("bold", font=(font_family, size, "bold"))
+        self.editor.tag_configure("italic", font=(font_family, size, "italic"))
+        self.editor.tag_configure("header", font=(font_family, size + 2, "bold"))
+        
+        if self.data.is_checklist:
+            self.apply_checklist_tags()
+        else:
+            self.apply_markdown_tags()
+        self.app.save()
+
+    def toggle_pin(self, event=None):
         self.data.always_on_top = not self.data.always_on_top
         self.window.attributes("-topmost", self.data.always_on_top)
+        self.pin_btn.configure(text="📍" if self.data.always_on_top else "📌")
         self.app.save()
 
     def edit_title(self, event):
@@ -600,8 +675,12 @@ class VibePadApp:
         tk.Label(dev_c, text="Visualizer | Vibe Coder", font=("Segoe UI", 9), bg="#F9F9F9", fg="#616161").pack(anchor="w")
         
         # Links
+        btn_g = tk.Label(body, text="📂 GitHub Repository", font=("Segoe UI", 10, "bold"), bg="white", fg="#4A90E2", cursor="hand2")
+        btn_g.pack(pady=(20, 0))
+        btn_g.bind("<Button-1>", lambda e: webbrowser.open("https://github.com/bappykumar/VibePad"))
+
         btn_l = tk.Label(body, text="🌐 Join Community", font=("Segoe UI", 10, "bold"), bg="white", fg="#4A90E2", cursor="hand2")
-        btn_l.pack(pady=(25, 0))
+        btn_l.pack(pady=(10, 0))
         btn_l.bind("<Button-1>", lambda e: webbrowser.open("https://t.me/designbd2"))
         
         # Footer

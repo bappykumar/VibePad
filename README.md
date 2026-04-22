@@ -1,9 +1,9 @@
 <div align="center">
 
-# 📝 VibePad v2.2.0
+# 📝 VibePad v2.3.0
 ### *Premium Desktop Sticky Notes for Modern Workflows*
 
-[![Version](https://img.shields.io/badge/version-2.2.0-blue.svg?style=for-the-badge)](https://github.com/bappykumar/VibePad)
+[![Version](https://img.shields.io/badge/version-2.3.0-blue.svg?style=for-the-badge)](https://github.com/bappykumar/VibePad)
 [![Platform](https://img.shields.io/badge/platform-Windows%20|%20macOS%20|%20Linux-lightgrey.svg?style=for-the-badge)](https://github.com/bappykumar/VibePad)
 [![License](https://img.shields.io/badge/license-MIT-green.svg?style=for-the-badge)](https://github.com/bappykumar/VibePad)
 
@@ -16,15 +16,19 @@
 ## 🚀 Quick Launch
 Just double-click **`VibePad_Control_Panel.exe`** to start your workspace. No Python installation required!
 
-## ✨ What's New in v2.2.0?
+## ✨ What's New in v2.3.0?
 
-Version 2.2.0 is a major refactor focused on **Stability**, **Aesthetics**, and **Productivity**.
+Version 2.3.0 is a major feature update focusing on **Personalization** and **Global Support**.
 
-- 🚀 **Single-Process Engine**: Optimized performance and no more file-locking issues.
-- 🗸 **Checklist Mode**: Create interactive TODO lists with a click.
-- ✍️ **Markdown Support**: Headers, Bold, and Italics with a clean "Syntax-Hide" interface.
+- 📌 **Smart Header Pin**: Toggle "Always on Top" instantly with the new left-aligned header icon.
+- 🔤 **Font Library**: Choose from 7 curated fonts (Handwriting, Artistic, Modern, Clean, Code, Classic, Bengali).
+- 🇧🇩 **Auto-Bengali Engine**: Intelligent detection that switches to **Li Ador Noirrit** for perfect Bengali rendering.
+- 📏 **Dynamic Font Size**: Full control over text scaling (9px to 24px) with proportional header scaling.
+- 📂 **GitHub Integration**: Direct link to the source repository from the "About" window.
+- 🛠️ **Redesigned Control Panel**: A professional utility hub to manage your VibePad experience.
+- 🚀 **Single-Process Engine**: Optimized performance and rock-solid stability.
+- 🗸 **Checklist Mode**: Create interactive TODO lists with a single click.
 - 🎨 **Harmonious Palette**: Six curated themes designed for readability and focus.
-- 🛠️ **Utility Suite**: Integrated Control Panel and One-click Data Cleaner.
 
 ---
 
@@ -68,7 +72,7 @@ Right-click or click the `(+)` icon to create a **New Checklist**.
 
 The package includes a suite of tools for a seamless experience:
 
-- **`VibePad_Control_Panel.exe`**: Manage your experience from a central hub.
+- **`VibePad_Control_Panel.exe`**: A professional, centralized hub to launch the app, enable/disable Windows auto-start, and safely reset your data.
 - **`Start_VibePad.bat`**: The quickest way to launch the app.
 - **`setup_autostart.bat`**: Adds VibePad to your Windows Startup folder.
 - **`VibePad_Cleaner.bat`**: Safely stops the app and resets todos/notes if you want a fresh start.
@@ -78,7 +82,7 @@ The package includes a suite of tools for a seamless experience:
 ## 📂 Installation
 
 ### For Windows Users (Recommended)
-1. Download the `VibePad_v2.2.0` folder.
+1. Download the `VibePad_v2.3.0` folder.
 2. Double-click **`VibePad_Control_Panel.exe`**.
 3. (Optional) Run `setup_autostart.bat` to have your notes ready every time you log in.
 
