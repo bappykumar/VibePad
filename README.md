@@ -12,8 +12,6 @@
 
 **VibePad** is a realistic, modern, and high-performance desktop sticky note widget. It brings tactile aesthetics to your digital workspace with professional power features like **Markdown, Checklists, and Intelligent Bengali Detection.**
 
-[🚀 Download Latest EXE](https://github.com/bappykumar/VibePad/releases) | [🌐 Join Community](https://t.me/designbd2)
-
 </div>
 
 ---
