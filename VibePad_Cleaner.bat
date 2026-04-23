@@ -7,6 +7,7 @@ echo.
 echo Stopping VibePad and Control Panel...
 taskkill /f /im python.exe /t >nul 2>&1
 taskkill /f /im pythonw.exe /t >nul 2>&1
+taskkill /f /im VibePad.exe /t >nul 2>&1
 taskkill /f /im VibePad_Control_Panel.exe /t >nul 2>&1
 taskkill /f /im VibePad_Control_Panel.py /t >nul 2>&1
 

@@ -66,15 +66,21 @@ class ControlPanel:
         return '#%02x%02x%02x' % tuple(max(0, int(c*0.8)) for c in rgb)
 
     def launch_app(self):
-        script = "VibePad.py"
-        if os.path.exists(script):
+        exe_file = "VibePad.exe"
+        py_file = "VibePad.py"
+        
+        if os.path.exists(exe_file):
             try:
-                subprocess.Popen(["pythonw", script], shell=True)
-                # Keep control panel open as per user request
+                subprocess.Popen([exe_file], shell=True)
             except Exception as e:
-                messagebox.showerror("Error", f"Could not launch VibePad: {e}")
+                messagebox.showerror("Error", f"Could not launch VibePad EXE: {e}")
+        elif os.path.exists(py_file):
+            try:
+                subprocess.Popen(["pythonw", py_file], shell=True)
+            except Exception as e:
+                messagebox.showerror("Error", f"Could not launch VibePad Script: {e}")
         else:
-            messagebox.showerror("Error", "VibePad.py not found!")
+            messagebox.showerror("Error", "Neither VibePad.exe nor VibePad.py found!")
 
     def setup_auto(self):
         bat = "setup_autostart.bat"
