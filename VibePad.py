@@ -691,4 +691,12 @@ class VibePadApp:
         self.root.quit()
 
 if __name__ == "__main__":
+    if sys.platform == "win32":
+        import ctypes
+        # Keep the mutex reference alive to prevent garbage collection
+        mutex = ctypes.windll.kernel32.CreateMutexW(None, False, "VibePad_SingleInstance_Mutex")
+        if ctypes.windll.kernel32.GetLastError() == 183: # ERROR_ALREADY_EXISTS
+            sys.exit(0)
+            
     app = VibePadApp()
+
