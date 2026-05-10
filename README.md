@@ -1,9 +1,9 @@
 <div align="center">
 
-# 📝 VibePad v2.3.0
+# 📝 VibePad v2.4.0
 ### *Premium Desktop Sticky Notes for Modern Workflows*
 
-[![Version](https://img.shields.io/badge/version-2.3.0-blue.svg?style=for-the-badge)](https://github.com/bappykumar/VibePad)
+[![Version](https://img.shields.io/badge/version-2.4.0-blue.svg?style=for-the-badge)](https://github.com/bappykumar/VibePad)
 [![Platform](https://img.shields.io/badge/platform-Windows-lightgrey.svg?style=for-the-badge)](https://github.com/bappykumar/VibePad)
 [![License](https://img.shields.io/badge/license-MIT-green.svg?style=for-the-badge)](https://github.com/bappykumar/VibePad)
 [![Python](https://img.shields.io/badge/Python-3.x-yellow.svg?style=for-the-badge)](https://www.python.org/)
@@ -16,10 +16,11 @@
 
 ---
 
-## ✨ What's New in v2.3.0?
+## ✨ What's New in v2.4.0?
 
-Version 2.3.0 is a major leap forward, focusing on **Personalization, Stability, and Zero-Dependency Portability.**
+Version 2.4.0 is a major leap forward, focusing on **Personalization, Stability, and Zero-Dependency Portability.**
 
+- 💾 **Settings Persistence**: VibePad now remembers your last selected Theme, Font, and Font Size for new notes automatically!
 - 🚀 **Zero-Dependency Mode**: Run the app on any Windows PC without installing Python.
 - 📌 **Smart Header Pin**: Toggle "Always on Top" instantly with the integrated header icon.
 - 🔤 **Font Library**: Choose from 7 curated fonts (Handwriting, Modern, Bengali, etc.).

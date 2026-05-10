@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 ============================================================
-  VibePad v2.3 - Developed by Bappy Kumar
+  VibePad v2.4 - Developed by Bappy Kumar
 ============================================================
   Modern, Clean, and Professional Desktop Widget
 ============================================================
@@ -32,7 +32,7 @@ if sys.platform == "win32":
 # ============================================================
 
 APP_NAME = "VibePad"
-APP_VERSION = "2.3.0"
+APP_VERSION = "2.4.0"
 
 if sys.platform == "win32":
     DATA_DIR = Path(os.environ.get("APPDATA", Path.home())) / APP_NAME
@@ -41,6 +41,7 @@ else:
 
 DATA_DIR.mkdir(parents=True, exist_ok=True)
 NOTES_FILE = DATA_DIR / "notes.json"
+SETTINGS_FILE = DATA_DIR / "settings.json"
 
 # Modern Harmonious Color Palette
 NOTE_COLORS = {
@@ -491,6 +492,8 @@ class StickyNote:
         self.editor.configure(bg=self.theme["bg"], fg=self.theme["text"], insertbackground=self.theme["text"])
         self.handle.configure(bg=self.theme["bg"], fg=self.theme["border"])
         self.update_colors()
+        self.app.app_settings["last_color_name"] = name
+        self.app.save_settings()
         self.app.save()
 
     def change_font(self, name, save=True):
@@ -505,6 +508,8 @@ class StickyNote:
         self.editor.tag_configure("header", font=(font_family, size + 2, "bold"))
         
         if save:
+            self.app.app_settings["last_font_name"] = name
+            self.app.save_settings()
             if self.data.is_checklist:
                 self.apply_checklist_tags()
             else:
@@ -521,6 +526,8 @@ class StickyNote:
         self.editor.tag_configure("italic", font=(font_family, size, "italic"))
         self.editor.tag_configure("header", font=(font_family, size + 2, "bold"))
         
+        self.app.app_settings["last_font_size"] = size
+        self.app.save_settings()
         if self.data.is_checklist:
             self.apply_checklist_tags()
         else:
@@ -583,6 +590,12 @@ class VibePadApp:
         self.root = tk.Tk()
         self.root.withdraw()
         self.notes = {}
+        self.app_settings = {
+            "last_color_name": "Vibe Yellow",
+            "last_font_name": "Handwriting",
+            "last_font_size": 11
+        }
+        self.load_settings()
         self.load()
         
         if not self.notes:
@@ -602,19 +615,29 @@ class VibePadApp:
         d = NoteData(title="Welcome", content=content, x=200, y=200)
         self.add_note(d)
 
-    def add_note(self, data):
+    def add_note(self, data, save=True):
         self.notes[data.note_id] = StickyNote(self, data)
-        self.save()
+        if save:
+            self.save()
 
     def new_note(self, is_checklist=False):
         title = "Checklist" if is_checklist else "Sticky Note"
-        d = NoteData(x=300, y=300, is_checklist=is_checklist, title=title)
+        d = NoteData(
+            x=300, y=300, 
+            is_checklist=is_checklist, 
+            title=title,
+            color_name=self.app_settings.get("last_color_name", "Vibe Yellow"),
+            font_name=self.app_settings.get("last_font_name", "Handwriting"),
+            font_size=self.app_settings.get("last_font_size", 11)
+        )
         self.add_note(d)
 
     def remove_note(self, nid):
         if nid in self.notes:
             del self.notes[nid]
             self.save()
+            if not self.notes:
+                self.quit_app()
 
     def save(self):
         data = []
@@ -624,14 +647,32 @@ class VibePadApp:
         with open(NOTES_FILE, 'w', encoding='utf-8') as f:
             json.dump(data, f, indent=2, ensure_ascii=False)
 
+    def load_settings(self):
+        if SETTINGS_FILE.exists():
+            try:
+                with open(SETTINGS_FILE, 'r', encoding='utf-8') as f:
+                    self.app_settings.update(json.load(f))
+            except Exception as e:
+                print(f"Settings load error: {e}")
+
+    def save_settings(self):
+        try:
+            with open(SETTINGS_FILE, 'w', encoding='utf-8') as f:
+                json.dump(self.app_settings, f, indent=2, ensure_ascii=False)
+        except Exception as e:
+            print(f"Settings save error: {e}")
+
     def load(self):
         if not NOTES_FILE.exists(): return
         try:
             with open(NOTES_FILE, 'r', encoding='utf-8') as f:
                 raw = json.load(f)
+                if not isinstance(raw, list): return
                 for d in raw:
-                    self.add_note(NoteData(**d))
-        except: pass
+                    # Load without triggering a save for every note
+                    self.add_note(NoteData(**d), save=False)
+        except Exception as e:
+            print(f"Load error: {e}")
 
     def darken(self, hex_c):
         hex_c = hex_c.lstrip('#')
@@ -691,11 +732,23 @@ class VibePadApp:
         self.root.quit()
 
 if __name__ == "__main__":
+    # Prevent multiple instances using a named mutex
     if sys.platform == "win32":
         import ctypes
-        # Keep the mutex reference alive to prevent garbage collection
-        mutex = ctypes.windll.kernel32.CreateMutexW(None, False, "VibePad_SingleInstance_Mutex")
-        if ctypes.windll.kernel32.GetLastError() == 183: # ERROR_ALREADY_EXISTS
+        
+        # Use a safe mutex name avoiding os.getlogin() which can fail in Startup tasks
+        mutex_name = "Global\\VibePad_SingleInstance_Mutex"
+        
+        # Must use WinDLL with use_last_error=True to reliably get the error code
+        kernel32 = ctypes.WinDLL('kernel32', use_last_error=True)
+        
+        # CreateMutexW returns a handle. If the mutex exists, get_last_error returns 183
+        h_mutex = kernel32.CreateMutexW(None, False, mutex_name)
+        last_err = ctypes.get_last_error()
+        
+        if last_err == 183: # ERROR_ALREADY_EXISTS
+            # If we want to bring the existing window to front, we could do more here.
+            # For now, just exit silently to prevent duplication.
             sys.exit(0)
             
     app = VibePadApp()

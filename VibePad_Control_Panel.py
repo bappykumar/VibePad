@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 ============================================================
-  VibePad Control Panel v2.3.0 - Developed by Bappy Kumar
+  VibePad Control Panel v2.4.0 - Developed by Bappy Kumar
 ============================================================
   Modern Utility for Managing VibePad Notes
 ============================================================
@@ -17,7 +17,7 @@ import sys
 class ControlPanel:
     def __init__(self):
         self.root = tk.Tk()
-        self.root.title("VibePad Control Panel v2.3.0")
+        self.root.title("VibePad Control Panel v2.4.0")
         self.root.geometry("400x500")
         self.root.configure(bg="#FFFFFF")
         self.root.resizable(False, False)
@@ -31,7 +31,7 @@ class ControlPanel:
         header.pack(fill=tk.X)
         header.pack_propagate(False)
         tk.Label(header, text="VibePad", font=("Segoe UI", 28, "bold"), bg="#4A90E2", fg="white").pack(pady=(25, 0))
-        tk.Label(header, text="Control Panel v2.3.0", font=("Segoe UI", 9, "bold"), bg="#4A90E2", fg="#E3F2FD").pack()
+        tk.Label(header, text="Control Panel v2.4.0", font=("Segoe UI", 9, "bold"), bg="#4A90E2", fg="#E3F2FD").pack()
 
         # Content
         body = tk.Frame(self.root, bg="#FFFFFF", padx=40, pady=30)
