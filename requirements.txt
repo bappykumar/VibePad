@@ -1,3 +1,0 @@
-# No external dependencies required. 
-# Tkinter is included with standard Python installations.
-# To install Python, visit https://python.org
